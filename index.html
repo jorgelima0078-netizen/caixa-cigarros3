@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caixa | Cigarros</title>
+<style>
+:root{--purple:#820ad1;--purple-dark:#5b0794;--ink:#21152d;--muted:#7d7486;--bg:#f7f5fa;--line:#eee8f4;--white:#fff;--green:#17875b;--shadow:0 8px 28px rgba(49,18,73,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button{font:inherit;cursor:pointer;border:0}button:focus-visible{outline:3px solid #c69af0;outline-offset:2px}
+.app{max-width:520px;min-height:100vh;margin:auto;background:var(--bg);padding:0 16px 100px}
+.top{margin:0 -16px;padding:22px 20px 24px;background:var(--purple);color:white;border-radius:0 0 24px 24px}
+.brandrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.brand{display:flex;align-items:center;gap:9px;font-size:1.02rem;font-weight:800;letter-spacing:.01em}
+.logo{width:34px;height:34px;border-radius:11px;background:#fff;color:var(--purple);display:grid;place-items:center;font-weight:900;font-size:1.2rem}
+.pill{font-size:.75rem;background:#ffffff24;border:1px solid #ffffff40;padding:6px 10px;border-radius:999px}
+.greeting{font-size:.86rem;color:#ead8f8;margin-bottom:5px}
+.total-label{font-size:.9rem;color:#f0dfff}.total{font-size:2.7rem;letter-spacing:-.05em;font-weight:800;margin:2px 0 16px;font-variant-numeric:tabular-nums}
+.topstats{display:flex;gap:24px}.topstat span{display:block;font-size:.75rem;color:#e7cef7}.topstat strong{font-size:1rem}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#eee8f4;padding:5px;border-radius:14px;margin:18px 0}
+.nav button{padding:12px;border-radius:10px;background:transparent;color:#72647f;font-weight:750}
+.nav button.active{background:white;color:var(--purple);box-shadow:0 2px 8px #39134a12}
+.section-title{font-size:1.1rem;font-weight:800;margin:20px 0 12px;letter-spacing:-.02em}
+.group-label{font-size:.76rem;font-weight:800;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin:18px 2px 9px}
+.products{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.product{background:white;border:1px solid var(--line);border-radius:17px;padding:15px 13px;box-shadow:var(--shadow);text-align:left;min-height:128px;display:flex;flex-direction:column;align-items:flex-start;transition:transform .08s,border-color .08s}
+.product:active{transform:scale(.98)}.product .kind{font-size:.73rem;color:var(--muted);margin-bottom:8px}.product .name{font-weight:800;font-size:1rem;line-height:1.2}.product .price{font-size:1.4rem;color:var(--purple);font-weight:850;margin-top:auto;padding-top:12px}.product .tap{font-size:.72rem;color:#8a7a98;margin-top:2px}
+.product:focus-visible{outline:3px solid #c69af0}
+.notice{font-size:.8rem;line-height:1.4;color:#705c7f;background:#f0e5fa;border-radius:12px;padding:12px 13px;margin-top:15px}
+.view{display:none}.view.active{display:block}
+.card{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;margin-top:12px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;margin:0 0 12px}
+.fieldlabel{display:block;color:#756982;font-size:.78rem;font-weight:750;margin:12px 0 6px}
+.payments{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.pay{background:#f5f1f8;color:#756982;border:1px solid transparent;border-radius:10px;padding:11px 4px;font-size:.83rem;font-weight:750}
+.pay.active{background:#f0e2fb;color:var(--purple);border-color:#d8b8f3}
+.primary{width:100%;background:var(--purple);color:white;font-weight:800;padding:15px;border-radius:12px;margin-top:15px}
+.primary:active{background:var(--purple-dark)}
+.cancel{background:#f5f1f8;color:#665774;padding:11px 13px;border-radius:10px;font-weight:750}
+.summaryline{display:flex;justify-content:space-between;gap:10px;padding:9px 0;color:#756982;font-size:.9rem}
+.summaryline strong{color:var(--ink)}.summaryline.final{border-top:1px solid var(--line);margin-top:4px;padding-top:14px;font-size:1rem}.summaryline.final strong{color:var(--purple);font-size:1.2rem}
+.historyrow{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}.historyrow:last-child{border-bottom:0}
+.historyicon{width:40px;height:40px;border-radius:13px;background:#f0e2fb;color:var(--purple);display:grid;place-items:center;font-weight:850;flex-shrink:0}
+.historybody{min-width:0;flex:1}.historyname{font-size:.9rem;font-weight:800}.historymeta{font-size:.75rem;color:var(--muted);margin-top:4px}.historyvalue{text-align:right;font-weight:850;white-space:nowrap}.historyvalue small{display:block;font-size:.72rem;color:var(--muted);font-weight:600;margin-top:4px}
+.empty{text-align:center;padding:30px 8px;color:var(--muted);font-size:.9rem}
+.filterrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filterrow input{flex:1;min-width:145px}
+input{font:inherit;border:1px solid #e1d8e9;border-radius:10px;padding:11px;background:white;color:var(--ink)}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px}.metric{background:#faf8fc;padding:13px;border-radius:12px}.metric span{font-size:.76rem;color:var(--muted);display:block}.metric strong{display:block;font-size:1.15rem;margin-top:5px}
+.bottomnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);display:grid;grid-template-columns:1fr 1fr 1fr;background:#fff;border-top:1px solid var(--line);padding:9px 16px max(9px,env(safe-area-inset-bottom));z-index:5}
+.bottomnav button{background:transparent;color:#94869f;padding:7px;font-size:.75rem;font-weight:750}.bottomnav button span{display:block;font-size:1.2rem;margin-bottom:3px}.bottomnav button.active{color:var(--purple)}
+@media(max-width:360px){.app{padding-left:11px;padding-right:11px}.top{margin-left:-11px;margin-right:-11px}.product{padding:13px 10px}.total{font-size:2.35rem}.topstats{gap:16px}}
+
+.payment-totals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:18px 0 8px}
+.payment-total{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);border-radius:13px;padding:10px 9px;min-width:0}
+.payment-total span{display:block;font-size:.72rem;line-height:1.25;opacity:.9;margin-bottom:7px}
+.payment-total strong{display:block;font-size:1rem;overflow-wrap:anywhere}
+@media(max-width:390px){.payment-totals{gap:5px}.payment-total{padding:9px 6px}.payment-total span{font-size:.66rem}.payment-total strong{font-size:.88rem}}
+</style>
+
+<meta name="theme-color" content="#820ad1">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+</head>
+<body>
+<div class="app">
+<header class="top">
+ <div class="brandrow"><div class="brand"><div class="logo">c</div> caixa cigarros</div><div class="pill">PDV simples</div></div>
+ <div class="greeting" id="todayLabel">Resumo de hoje</div>
+ <div class="total-label">Total vendido</div>
+ <div class="total" id="todayRevenue">R$ 0,00</div>
+ <div class="payment-totals">
+  <div class="payment-total"><span>Cartão crédito/débito</span><strong id="todayCardTotal">R$ 0,00</strong></div>
+  <div class="payment-total"><span>Dinheiro</span><strong id="todayCashTotal">R$ 0,00</strong></div>
+  <div class="payment-total"><span>Pix</span><strong id="todayPixTotal">R$ 0,00</strong></div>
+ </div>
+ <div class="topstats">
+  <div class="topstat"><span>Cigarros / maços</span><strong id="todayItems">0 itens</strong></div>
+  <div class="topstat"><span>Vendas</span><strong id="todaySales">0</strong></div>
+ </div>
+</header>
+
+<nav class="nav" aria-label="Telas">
+ <button class="active" data-view="sell">Vender</button>
+ <button data-view="history">Histórico</button>
+</nav>
+
+<section id="sellView" class="view active">
+ <div class="section-title">O que você vendeu?</div>
+ <div class="group-label">Maços</div>
+ <div class="products">
+  <button class="product" data-product="Minister Original" data-type="Maço" data-price="16"><span class="kind">MAÇO</span><span class="name">Minister Original</span><span class="price">R$ 16,00</span><span class="tap">Toque para vender →</span></button>
+  <button class="product" data-product="Global" data-type="Maço" data-price="15"><span class="kind">MAÇO</span><span class="name">Global</span><span class="price">R$ 15,00</span><span class="tap">Toque para vender →</span></button>
+ </div>
+ <div class="group-label">Avarejo · unidade</div>
+ <div class="products">
+  <button class="product" data-product="Minister Original" data-type="Avarejo" data-price="1.5"><span class="kind">AVAREJO</span><span class="name">Minister Original</span><span class="price">R$ 1,50</span><span class="tap">Toque para vender →</span></button>
+  <button class="product" data-product="Global" data-type="Avarejo" data-price="1"><span class="kind">AVAREJO</span><span class="name">Global</span><span class="price">R$ 1,00</span><span class="tap">Toque para vender →</span></button>
+ </div>
+ <div class="notice">Cartão de crédito ou débito: acrescenta R$ 1,00 ao valor da venda. Dinheiro e Pix não têm acréscimo.</div>
+</section>
+
+<section id="checkoutView" class="view">
+ <div class="section-title">Finalizar venda</div>
+ <div class="card">
+  <div class="row" style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start">
+   <div><div class="muted" id="checkoutType">MAÇO</div><h2 id="checkoutName" style="margin:4px 0 0;font-size:1.25rem">Minister Original</h2></div>
+   <button class="cancel" id="backToSell">Voltar</button>
+  </div>
+  <label class="fieldlabel" for="qty">Quantidade</label>
+  <div style="display:flex;gap:8px;align-items:center">
+   <button class="cancel" id="minusQty" aria-label="Diminuir quantidade">−</button>
+   <input id="qty" type="number" min="1" step="1" value="1" inputmode="numeric" style="width:100%;text-align:center;font-size:1.2rem;font-weight:800">
+   <button class="cancel" id="plusQty" aria-label="Aumentar quantidade">+</button>
+  </div>
+  <div class="fieldlabel">Forma de pagamento</div>
+  <div class="payments">
+   <button class="pay active" data-payment="Dinheiro">Dinheiro</button>
+   <button class="pay" data-payment="Pix">Pix</button>
+   <button class="pay" data-payment="Débito">Débito</button>
+   <button class="pay" data-payment="Crédito">Crédito</button>
+  </div>
+  <div style="margin-top:17px">
+   <div class="summaryline"><span>Preço por item</span><strong id="unitPrice">R$ 16,00</strong></div>
+   <div class="summaryline"><span>Subtotal</span><strong id="subtotal">R$ 16,00</strong></div>
+   <div class="summaryline"><span>Acréscimo do cartão</span><strong id="fee">R$ 0,00</strong></div>
+   <div class="summaryline final"><span>Total a cobrar</span><strong id="grandTotal">R$ 16,00</strong></div>
+  </div>
+  <button class="primary" id="confirmSale">Confirmar venda</button>
+ </div>
+</section>
+
+<section id="historyView" class="view">
+ <div class="section-title">Histórico de vendas</div>
+ <div class="card">
+  <label class="fieldlabel" for="historyDate" style="margin-top:0">Escolher dia</label>
+  <div class="filterrow"><input id="historyDate" type="date"><button class="cancel" id="todayFilter">Hoje</button></div>
+  <div class="metrics" style="margin-top:14px">
+   <div class="metric"><span>Total vendido</span><strong id="historyRevenue">R$ 0,00</strong></div>
+   <div class="metric"><span>Número de vendas</span><strong id="historyCount">0</strong></div>
+  </div>
+  <div class="section-title" style="font-size:.92rem;margin-top:22px">Movimentações</div>
+  <div id="historyList"></div>
+  <button class="primary" id="exportCsv" style="margin-top:10px">Exportar histórico</button>
+ </div>
+</section>
+<section id="reportView" class="view">
+ <div class="section-title">Relatório do dia</div>
+ <div class="card">
+  <label class="fieldlabel" for="reportDate" style="margin-top:0">Data do relatório</label>
+  <div class="filterrow"><input id="reportDate" type="date"><button class="cancel" id="reportToday">Hoje</button></div>
+  <div id="pdfPreview" style="background:#faf8fc;border-radius:12px;padding:15px;margin-top:15px">
+   <div style="font-size:.75rem;color:#7d7486;font-weight:800;text-transform:uppercase;letter-spacing:.06em">Resumo do caixa</div>
+   <div id="reportDateLabel" style="font-weight:800;font-size:1rem;margin-top:5px">Relatório diário</div>
+   <div class="metrics" style="margin-top:13px">
+    <div class="metric"><span>Total vendido</span><strong id="reportTotal">R$ 0,00</strong></div>
+    <div class="metric"><span>Vendas realizadas</span><strong id="reportSales">0</strong></div>
+    <div class="metric"><span>Maços vendidos</span><strong id="reportPacks">0</strong></div>
+    <div class="metric"><span>Avulsos vendidos</span><strong id="reportSingles">0</strong></div>
+   </div>
+   <div class="section-title" style="font-size:.92rem;margin-top:20px">Por forma de pagamento</div>
+   <div id="reportPayments"></div>
+   <div class="section-title" style="font-size:.92rem;margin-top:20px">Vendas por produto</div>
+   <div id="reportProducts"></div>
+   <div class="section-title" style="font-size:.92rem;margin-top:20px">Detalhamento das vendas</div>
+   <div id="reportTransactions"></div>
+  </div>
+  <button class="primary" id="savePdf">Salvar relatório em PDF</button>
+  <p class="muted" style="line-height:1.5;margin-bottom:0">Na tela de impressão, escolha “Salvar como PDF” para guardar o relatório.</p>
+ </div>
+</section>
+</div>
+<nav class="bottomnav">
+ <button class="active" data-view="sell"><span>＋</span>Vender</button>
+ <button data-view="history"><span>↻</span>Histórico</button>
+ <button data-view="report"><span>▤</span>Relatório PDF</button>
+</nav>
+<script>
+(()=>{
+const KEY='caixa-cigarros-novo-v1';
+const $=id=>document.getElementById(id);
+const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
+const money=n=>Number(n).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+let sales=[],selected=null,payment='Dinheiro';
+try{const a=JSON.parse(localStorage.getItem(KEY)||'[]');if(Array.isArray(a))sales=a}catch(e){}
+$('historyDate').value=today();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(sales))}catch(e){alert('Não foi possível salvar os dados neste aparelho.')}};
+const dateOf=s=>s.date;
+function go(view){
+ document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+ const id=view==='sell'?'sellView':view==='checkout'?'checkoutView':view==='report'?'reportView':'historyView';$(id).classList.add('active');
+ document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view || (view==='checkout'&&b.dataset.view==='sell')));
+ window.scrollTo({top:0,behavior:'instant'});
+}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{render();go(b.dataset.view)}));
+function summary(){
+ const t=today(),day=sales.filter(s=>dateOf(s)===t);
+ $('todayRevenue').textContent=money(day.reduce((a,s)=>a+s.total,0));
+ const cardTotal=day.filter(s=>/crédito|debito|débito|cartão|cartao/i.test(s.payment)).reduce((a,s)=>a+s.total,0);
+ const cashTotal=day.filter(s=>/dinheiro/i.test(s.payment)).reduce((a,s)=>a+s.total,0);
+ const pixTotal=day.filter(s=>/pix/i.test(s.payment)).reduce((a,s)=>a+s.total,0);
+ $('todayCardTotal').textContent=money(cardTotal);
+ $('todayCashTotal').textContent=money(cashTotal);
+ $('todayPixTotal').textContent=money(pixTotal);
+ $('todayItems').textContent=day.reduce((a,s)=>a+s.qty,0)+' itens';
+ $('todaySales').textContent=day.length;
+ $('todayLabel').textContent=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+}
+function renderHistory(){
+ const date=$('historyDate').value||today(),list=sales.filter(s=>s.date===date).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));
+ $('historyRevenue').textContent=money(list.reduce((a,s)=>a+s.total,0));$('historyCount').textContent=list.length;
+ const root=$('historyList');root.innerHTML='';
+ if(!list.length){root.innerHTML='<div class="empty">Nenhuma venda registrada neste dia.</div>';return}
+ list.forEach(s=>{
+  const row=document.createElement('div');row.className='historyrow';
+  const icon=document.createElement('div');icon.className='historyicon';icon.textContent=s.type==='Maço'?'M':'A';
+  const body=document.createElement('div');body.className='historybody';
+  const name=document.createElement('div');name.className='historyname';name.textContent=`${s.brand} · ${s.type} × ${s.qty}`;
+  const meta=document.createElement('div');meta.className='historymeta';meta.textContent=`${new Date(s.createdAt).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} · ${s.payment}${s.fee?' · inclui +R$ 1,00 do cartão':''}`;
+  body.append(name,meta);
+  const val=document.createElement('div');val.className='historyvalue';val.textContent=money(s.total);
+  const del=document.createElement('button');del.className='cancel';del.style.padding='7px';del.style.marginLeft='6px';del.textContent='×';del.setAttribute('aria-label','Excluir venda');
+  del.addEventListener('click',()=>{if(confirm('Excluir esta venda do histórico?')){sales=sales.filter(x=>x.id!==s.id);save();render()}});
+  row.append(icon,body,val,del);root.append(row);
+ });
+}
+function renderReport(){
+ const date=$('reportDate').value||today(),day=sales.filter(s=>s.date===date);
+ $('reportDateLabel').textContent=new Date(date+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+ $('reportTotal').textContent=money(day.reduce((a,s)=>a+s.total,0));$('reportSales').textContent=day.length;
+ $('reportPacks').textContent=day.filter(s=>s.type==='Maço').reduce((a,s)=>a+s.qty,0);
+ $('reportSingles').textContent=day.filter(s=>s.type==='Avarejo').reduce((a,s)=>a+s.qty,0);
+ $('reportPayments').innerHTML='';
+ [
+  {label:'Cartão crédito/débito', payments:['Crédito','Débito']},
+  {label:'Dinheiro', payments:['Dinheiro']},
+  {label:'Pix', payments:['Pix']}
+ ].forEach(group=>{
+  const amount=day.filter(s=>group.payments.includes(s.payment)).reduce((a,s)=>a+s.total,0);
+  const row=document.createElement('div');row.className='summaryline';
+  const label=document.createElement('span');label.textContent=group.label;
+  const val=document.createElement('strong');val.textContent=money(amount);row.append(label,val);$('reportPayments').append(row);
+ });
+ $('reportProducts').innerHTML='';
+ [['Minister Original','Maço'],['Global','Maço'],['Minister Original','Avarejo'],['Global','Avarejo']].forEach(([brand,type])=>{
+  const items=day.filter(s=>s.brand===brand&&s.type===type),qty=items.reduce((a,s)=>a+s.qty,0),amount=items.reduce((a,s)=>a+s.total,0);
+  const row=document.createElement('div');row.className='summaryline';
+  const label=document.createElement('span');label.textContent=`${brand} · ${type} (${qty})`;
+  const val=document.createElement('strong');val.textContent=money(amount);row.append(label,val);$('reportProducts').append(row);
+ });
+ $('reportTransactions').innerHTML='';
+ if(!day.length){const e=document.createElement('div');e.className='empty';e.textContent='Nenhuma venda registrada nesta data.';$('reportTransactions').append(e)}
+ [...day].sort((a,b)=>a.createdAt.localeCompare(b.createdAt)).forEach(s=>{
+  const row=document.createElement('div');row.className='summaryline';
+  const label=document.createElement('span');label.textContent=`${new Date(s.createdAt).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})} · ${s.brand} (${s.type}) × ${s.qty} · ${s.payment}`;
+  const val=document.createElement('strong');val.textContent=money(s.total);row.append(label,val);$('reportTransactions').append(row);
+ });
+}
+function render(){summary();renderHistory();renderReport()}
+function updateCheckout(){
+ const q=Math.max(1,Math.floor(Number($('qty').value)||1));$('qty').value=q;
+ const subtotal=q*selected.price,fee=(payment==='Crédito'||payment==='Débito')?1:0,total=subtotal+fee;
+ $('unitPrice').textContent=money(selected.price);$('subtotal').textContent=money(subtotal);$('fee').textContent=money(fee);$('grandTotal').textContent=money(total);
+ document.querySelectorAll('[data-payment]').forEach(b=>b.classList.toggle('active',b.dataset.payment===payment));
+}
+document.querySelectorAll('.product').forEach(b=>b.addEventListener('click',()=>{
+ selected={brand:b.dataset.product,type:b.dataset.type,price:Number(b.dataset.price)};
+ $('checkoutName').textContent=selected.brand;$('checkoutType').textContent=selected.type.toUpperCase();
+ $('qty').value=1;payment='Dinheiro';updateCheckout();go('checkout');
+}));
+document.querySelectorAll('[data-payment]').forEach(b=>b.addEventListener('click',()=>{payment=b.dataset.payment;updateCheckout()}));
+$('qty').addEventListener('input',updateCheckout);
+$('minusQty').addEventListener('click',()=>{$('qty').value=Math.max(1,(Number($('qty').value)||1)-1);updateCheckout()});
+$('plusQty').addEventListener('click',()=>{$('qty').value=Math.max(1,(Number($('qty').value)||1)+1);updateCheckout()});
+$('backToSell').addEventListener('click',()=>go('sell'));
+$('confirmSale').addEventListener('click',()=>{
+ if(!selected)return;
+ const qty=Math.floor(Number($('qty').value));if(!Number.isSafeInteger(qty)||qty<1){alert('Informe uma quantidade válida.');return}
+ const fee=(payment==='Crédito'||payment==='Débito')?1:0,subtotal=qty*selected.price;
+ sales.push({id:Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8),date:today(),createdAt:new Date().toISOString(),brand:selected.brand,type:selected.type,qty,unitPrice:selected.price,payment,subtotal,fee,total:subtotal+fee});
+ save();render();go('sell');
+});
+$('reportDate').value=today();
+$('reportDate').addEventListener('change',renderReport);
+$('reportToday').addEventListener('click',()=>{$('reportDate').value=today();renderReport()});
+$('savePdf').addEventListener('click',()=>{
+ renderReport();
+ const w=window.open('','_blank');
+ if(!w){alert('O navegador bloqueou a janela de impressão. Permita pop-ups para salvar o PDF.');return}
+ const css=`body{font-family:Arial,sans-serif;color:#24172e;padding:24px}h1{color:#820ad1;margin-bottom:4px}.sub{color:#655b6c;margin-bottom:22px}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{border:1px solid #ddd5e6;padding:12px;border-radius:8px}.metric span{display:block;color:#655b6c;font-size:12px}.metric strong{display:block;font-size:18px;margin-top:5px}.section-title{font-weight:bold;margin:22px 0 8px}.summaryline{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid #eee;font-size:12px}.summaryline span{max-width:75%}.summaryline strong{white-space:nowrap}.empty{padding:12px 0;color:#655b6c}@media print{body{padding:0}}`;
+ w.document.write('<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Relatório diário - Caixa Cigarros</title><style>'+css+'</style></head><body><h1>Caixa Cigarros</h1><div class="sub">Relatório diário de vendas</div>'+$('pdfPreview').innerHTML+'
+<script>
+(() => {
+  if (!('serviceWorker' in navigator)) return;
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+      .catch(error => console.error('Falha ao registrar o modo offline:', error));
+  });
+})();
+</script>
+
+</body></html>');
+ w.document.close();w.focus();setTimeout(()=>w.print(),300);
+});
+$('historyDate').addEventListener('change',renderHistory);
+$('todayFilter').addEventListener('click',()=>{$('historyDate').value=today();renderHistory()});
+$('exportCsv').addEventListener('click',()=>{
+ const rows=[['Data','Horário','Marca','Tipo','Quantidade','Preço unitário','Pagamento','Acréscimo cartão','Total']];
+ [...sales].sort((a,b)=>a.createdAt.localeCompare(b.createdAt)).forEach(s=>rows.push([s.date,new Date(s.createdAt).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),s.brand,s.type,s.qty,s.unitPrice.toFixed(2),s.payment,s.fee.toFixed(2),s.total.toFixed(2)]));
+ const csv='\uFEFF'+rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'})),a=document.createElement('a');a.href=url;a.download='historico-caixa-cigarros.csv';a.click();URL.revokeObjectURL(url);
+});
+render();
+})();
+</script>
+</body>
+</html>

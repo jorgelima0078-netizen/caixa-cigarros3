@@ -1,0 +1,20 @@
+CAIXA CIGARROS — PACOTE PWA REVISADO
+
+Arquivos:
+- index.html: app completo
+- manifest.webmanifest: manifesto PWA com nome, ícones e modo standalone
+- sw.js: service worker para cache/offline
+- icons/icon-192.png e icon-512.png: ícones PWA
+
+COMO PUBLICAR:
+1. Extraia este ZIP.
+2. Envie o CONTEÚDO da pasta (index.html, manifest.webmanifest, sw.js e a pasta icons) para o diretório raiz de um novo deploy Netlify.
+3. Abra a URL HTTPS do deploy no Chrome Android.
+4. Aguarde alguns segundos e recarregue a página.
+5. Menu ⋮ > Instalar app.
+
+IMPORTANTE:
+- Não envie o ZIP como se fosse o site publicado; envie os arquivos extraídos.
+- Não coloque os arquivos dentro de uma subpasta do site; index.html deve estar na raiz.
+- Se já existe um deploy anterior, publique estes arquivos como um NOVO deploy atualizado.
+- Os dados de vendas ficam no armazenamento local do navegador e podem não migrar para um domínio/URL novo. Exporte o histórico antes de mudar.
